@@ -17,6 +17,11 @@ import (
 type Handler struct{}
 
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path == "/readyz" || r.URL.Path == "/healthz" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	hostname, _ := os.Hostname()
 
 	rate.Incr(1)
